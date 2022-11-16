@@ -1,6 +1,6 @@
 # Bazinga-2022-2023
 
-Before Nov, 12, 2022  - Had a lot of problems / Focused on building the robot first
+Before Nov 12, 2022  - Had a lot of problems / Focused on building the robot first
 
               - Teleop would not load onto the Control Hub
                 - Fixed by upgrading Gradle
