@@ -24,5 +24,5 @@ Jan 7, 2023   - It's been quite some time, so this is going to be pretty long
                 - We tried it out using telemetry to see how accurate it was in a certain amount of distance
                 - We adjusted values until we got numbers to our liking that were easily understandable
                 - The color sensor is attached to the back of our robot and will back up to the cone in order to see it
-              - Around December 3rd, the robot was fully built including two dead wheels, a mecanum drive, and a dual lift and claw mechanism
+              - *December 3rd*, the robot was fully built including two dead wheels, a mecanum drive, and a dual lift and claw mechanism
               - We attached a second color sensor onto the claw so that when it senses an object, it automatically closes
