@@ -19,10 +19,12 @@ Jan 7, 2023   - It's been quite some time, so this is going to be pretty long
               - While the programmers waited on the construction of the robot, we created a basic Teleop with functions to all of the known mechanisms 
               - Additionally, we continued our research on RoadRunner and began setting it up
                 - We configured the DriveConstants, SampleMecanumDrive, StandardTrackingWheelLocalizer, and TwoWheelTrackingLocalizer to the best of our abilities without the robot
-              - We decided that instead of using a camera in autonomous, we were going to use a color sensor (something which we have never used before)
-                - We found the documentation of the color sensor v3 on Rev Robotics' website
+              We decided that instead of using a camera in autonomous, we were going to use a color sensor (something which we have never used before)
+                We found the documentation of the color sensor v3 on Rev Robotics' website
                 - We tried it out using telemetry to see how accurate it was in a certain amount of distance
                 - We adjusted values until we got numbers to our liking that were easily understandable
                 - The color sensor is attached to the back of our robot and will back up to the cone in order to see it
-              - **December 3rd**, the robot was fully built including two dead wheels, a mecanum drive, and a dual lift and claw mechanism
-              - We attached a second color sensor onto the claw so that when it senses an object, it automatically closes
+              - December 3rd, the robot was fully built including two dead wheels, a mecanum drive, and a dual lift and claw mechanism
+              - December 7th, we attached a second color sensor onto the claw so that when it senses an object, it automatically closes
+              - December 10th, we began tuning roadrunner
+                - 
