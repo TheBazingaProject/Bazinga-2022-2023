@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 
 @Autonomous(name = "BlueAudienceCamMove", group = "Iterative Opmode")
-//@Disabled
+@Disabled
 public class RedAudienceAuto extends OpMode {
 
     // Declare OpMode members.
@@ -44,6 +45,7 @@ public class RedAudienceAuto extends OpMode {
 
 
     String task = "Start";
+    int zone;
 
     private static final String TFOD_MODEL_ASSET = "FreightFrenzy_BCDM.tflite";
     private static final String[] LABELS = {
@@ -188,7 +190,6 @@ public class RedAudienceAuto extends OpMode {
         switch (task) {
             case "Start":
                 runtime.reset();
-                //scan signal using camera, save value as a variable so we can recall it later
                 task = "drive forward";
                 break;
 
@@ -202,11 +203,27 @@ public class RedAudienceAuto extends OpMode {
                 break;
 
             case "drive forward":
-                runtime.reset();
                 //drive forward approximately a tile and a half to line up to middle goal
-                movement.encoderDrive(movement.DRIVE_SPEED,35,35);
-                task = "strafe to the right";
+                movement.drive(0.5, 0.5);
+                task = "stop";
                 break;
+
+            case "color sensor woah":
+            //scan signal using camera, save value as a variable so we can recall it later
+            //we'd get a color sensor, give it a variable named color, so we can do
+            //if color.red() = an amount thats good enough, then set zone = 3, and then do that
+            //for every other color
+//            while (runtime.seconds() < 2) {
+//                if (robot.color.blue() > robot.color.red() && robot.color.blue() > robot.color.green()) {
+//                    zone = 1;
+//                } else if (robot.color.green() > robot.color.blue() && robot.color.green() > robot.color.red()) {
+//                    zone = 2;
+//                } else {
+//                    zone = 3;
+//                }
+//            }
+            task = "strafe to the right";
+            break;
 
             case "strafe to the right":
                 runtime.reset();
@@ -234,7 +251,7 @@ public class RedAudienceAuto extends OpMode {
 
             case "align to stack":
                 runtime.reset();
-                //move approximately half of a tile forward to align to stack
+                //move approxima tely half of a tile forward to align to stack
                 movement.encoderDrive(movement.DRIVE_SPEED,12,12);
                 task = "turn to face stack";
                 break;
@@ -318,8 +335,10 @@ public class RedAudienceAuto extends OpMode {
                 if (tfod != null) {
                     tfod.shutdown();
                 }
-                runtime.reset();
-                stop();
+                if (runtime.seconds() > 1.8) {
+                    movement.drive(0, 0);
+                    stop();
+                }
                 break;
         }
 

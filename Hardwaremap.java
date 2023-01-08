@@ -33,7 +33,11 @@ import androidx.collection.CircularArray;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -66,10 +70,15 @@ public class Hardwaremap {
     DcMotorEx fright  = null;
     DcMotorEx bright  = null;
     DcMotorEx bleft  = null;
-    DcMotorEx lift = null;
+    DcMotorEx liftR = null;
+    DcMotorEx liftL = null;
     DcMotorEx extendor = null;
     Servo claw = null;
 
+
+    ColorSensor color1;
+    ColorSensor color2;
+    DistanceSensor distance;
     // Define Drive constants.  Make them public so they CAN be used by the calling OpMode
     public static final double MID_SERVO       =  0.5 ;
     public static final double HAND_SPEED      =  0.02 ;  // sets rate to move servo
@@ -92,23 +101,40 @@ public class Hardwaremap {
         // Save reference to Hardware map
         hwMap = ahwMap;
         // Define and Initialize Motors (note: need to use reference to actual OpMode).
-        fleft  = hwMap.get(DcMotorEx.class, "fleft");
-        fright = hwMap.get(DcMotorEx.class, "fright");
-        bleft = hwMap.get(DcMotorEx.class, "bleft");
-        bright = hwMap.get(DcMotorEx.class, "bright");
-        extendor = hwMap.get(DcMotorEx.class, "extendor");
-        lift = hwMap.get(DcMotorEx.class, "lift");
+        // Control Hub
+        bleft = hwMap.get(DcMotorEx.class, "bleft"); // Port 0
+        fleft  = hwMap.get(DcMotorEx.class, "fleft"); // Port 1
+        bright = hwMap.get(DcMotorEx.class, "bright"); // Port 2
+        fright = hwMap.get(DcMotorEx.class, "fright"); // Port 3
 
+        color1 = hwMap.get(ColorSensor.class, "color1");
+        color2 = hwMap.get(ColorSensor.class, "color2");
 
-        claw = hwMap.get(Servo.class, "claw");
+        // Expansion Hub
+        liftR = hwMap.get(DcMotorEx.class, "liftR"); // Port 0
+        liftL = hwMap.get(DcMotorEx.class, "liftL"); // Port 1
+        extendor = hwMap.get(DcMotorEx.class, "extendor"); // Port 2
+
+        claw = hwMap.get(Servo.class, "claw"); // Port 0
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         fleft.setDirection(DcMotorEx.Direction.REVERSE);
-        fright.setDirection(DcMotorEx.Direction.REVERSE);
-        bleft.setDirection(DcMotorEx.Direction.FORWARD);
+        fright.setDirection(DcMotorEx.Direction.FORWARD);
+        bleft.setDirection(DcMotorEx.Direction.REVERSE);
         bright.setDirection(DcMotorEx.Direction.FORWARD);
+        liftL.setDirection(DcMotorSimple.Direction.REVERSE);
+        liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
+        fleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        bleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        fright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        bright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        extendor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         claw.setPosition(MID_SERVO);
 

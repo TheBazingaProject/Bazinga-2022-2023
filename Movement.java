@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -71,6 +72,24 @@ public class Movement {
         robot.fleft.setPower(Math.abs(speed));
         robot.bright.setPower(Math.abs(speed));
         robot.bleft.setPower(Math.abs(speed));
+
+    }
+
+    public void encoderMotor(DcMotorEx motor, double speed, double inches) {
+        int motorTarget;
+
+        // Determine new target position, and pass to motor controller
+        motorTarget = motor.getCurrentPosition() - (int)(inches * COUNTS_PER_INCH);
+
+        motor.setTargetPosition(motorTarget);
+
+
+        // Turn On RUN_TO_POSITION
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        //runtime.reset();
+        motor.setPower(Math.abs(speed));
     }
 
     // frightBleft is positive and fleftBright is negative to strafe left
