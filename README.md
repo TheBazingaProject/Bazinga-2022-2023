@@ -43,3 +43,4 @@ Jan 7, 2023   - It's been quite some time, so this is going to be pretty long
                   Translational_PID: kP = 8, kI = 0, kD = 0.5
                 - We accidently skipped the FollowerPIDTuner, which we will go back and tune during our next meeting
                 - Moving onto the spline test, it worked very well moving forwards, but weirdly skips a part of the path when sliding backwards
+                  - Need to retune localizer
