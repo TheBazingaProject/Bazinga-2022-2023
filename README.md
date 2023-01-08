@@ -35,5 +35,11 @@ Jan 7, 2023   - It's been quite some time, so this is going to be pretty long
                 
                 Afterwords, we ran the straight test with a 1% error within our specified distance.
                 - When we ran the strafe test, there was a very noticable forward drift. We discovered that we reversed the wrong wheels, which impacted our driving teleop. We switched around some of the +/- signs to fix that problem. The drift however, was still present; so it was concluded to be a mechanical error in the motors.
-              - 
-                
+              - January 4th, We attempted the Track Width Tuning test phase, we got a max angular velocity of 2.9 radians or 166.67 degrees. We noticed that our robot on the FTC dashboard was not following the target nor moving at all. 
+              - January 7th (caught up to the present), we figured out that the problem was that one of the wires for the parallel wheel was plugged into the wrong port. We simply changed the port in the code
+                - The Turn Test Tuning was simple and worked well
+                - Next, we tuned the Follower PID, Back and Forth Test, the results:
+                  Heading_PID: kP = 6.5, kI = 0, kD = 0
+                  Translational_PID: kP = 8, kI = 0, kD = 0.5
+                - We accidently skipped the FollowerPIDTuner, which we will go back and tune during our next meeting
+                - Moving onto the spline test, it worked very well moving forwards, but weirdly skips a part of the path when sliding backwards
