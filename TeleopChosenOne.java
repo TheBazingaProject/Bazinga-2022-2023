@@ -73,7 +73,7 @@ public class TeleopChosenOne extends OpMode{
     static final double     LIFT_WHEEL_DIAMETER_IN  = 2.0 ;
     static final double     LIFT_SPEED              = 1.0 ;
     static final double     LIFT_COUNTS_PER_INCH    = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (LIFT_WHEEL_DIAMETER_IN * 3.1415);
-
+    int zone;
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -83,7 +83,13 @@ public class TeleopChosenOne extends OpMode{
         robot.init(hardwareMap);
         runtime.reset();
         robot.claw.setPosition(0.6);
+        robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.extendor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addData(">", "Robot Ready.  Press Play.");    //
+
+
+
     }
 
     /*
@@ -98,16 +104,16 @@ public class TeleopChosenOne extends OpMode{
      */
     @Override
     public void start() {
-    }
+        }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     @Override
     public void loop() {
         double ly = gamepad1.left_stick_y; // Remember, this is reversed!
         double lx = -gamepad1.left_stick_x;
         double rx = -gamepad1.right_stick_x;
+
+
+
 
         if (gamepad1.left_bumper && reverse) {
             reverse = false;
@@ -129,61 +135,84 @@ public class TeleopChosenOne extends OpMode{
         }
 
         if (-gamepad2.right_stick_y > 0.8) {
-            robot.liftL.setPower(0.85);
-            robot.liftR.setPower(0.85);
+            robot.liftL.setPower(1);
+            robot.liftR.setPower(1);
         } else if (-gamepad2.right_stick_y < -0.8) {
-            robot.liftL.setPower(-0.2);
-            robot.liftR.setPower(-0.2);
+            robot.liftL.setPower(-0.6);
+            robot.liftR.setPower(-0.6);
         } else {
-            robot.liftL.setPower(.2);
-            robot.liftR.setPower(.2); //enough to fight gravity but not enough to cause it to accelerate
+            robot.liftL.setPower(.18);
+            robot.liftR.setPower(.18); //enough to fight gravity but not enough to cause it to accelerate
         }
 
         if (-gamepad2.left_stick_y > 0){
-            robot.extendor.setPower(0.5);
+            robot.extendor.setPower(-1);
         } else if (-gamepad2.left_stick_y < 0){
-            robot.extendor.setPower(-0.5);
+            robot.extendor.setPower(0.5);
         } else {
-            robot.extendor.setPower(0.06); //enough to keep it in place
+            robot.extendor.setPower(-0.1); //enough to keep it in place
         }
 
-        if (robot.color2.blue() >= 20 || robot.color2.red() >= 20 && clawClosed){
+//        if (gamepad1.x) {
+//            robot.intakeR.setPosition(1);
+//        }
+
+        if (robot.color2.blue() >= 20 || robot.color2.red() >= 20 && clawClosed == false){
             robot.claw.setPosition(0.2);
         }
-//            if (gamepad2.left_bumper && clawClosed == true) {
-//                robot.claw.setPosition(0.6);
-//                clawClosed = false;
-//            } else if (clawClosed == false) {
-//                robot.claw.setPosition(0.2);
-//                clawClosed = true;
-//            }
+        if (gamepad2.left_bumper && clawClosed == true) {
+                robot.claw.setPosition(0.6);
+                clawClosed = false;
+        } else if (clawClosed == false) {
+                robot.claw.setPosition(0.2);
+                clawClosed = true;
+        }
 
         if (gamepad2.right_bumper){
             robot.claw.setPosition(0.2);
             clawClosed = false;
+
         } else if (gamepad2.left_bumper) {
-            robot.claw.setPosition(0.6);
+            robot.claw.setPosition(0.55);
+            clawClosed = true;
+
+        }
+
+        if (robot.claw.getPosition() >= .2) {
             clawClosed = true;
         }
-//        } else if (robot.color2.blue() >= 20 || robot.color2.red() >= 20) { //autoclaw
-//            robot.claw.setPosition(0.2);
-//            movement.encoderMotor(robot.extendor, Movement.TURN_SPEED,15);
-//       }
-//
-//        if (robot.claw.getPosition() >= .2) {
-//            clawClosed = true;
-//        }
 
 
 
         if (gamepad2.x){
-            movement.encoderMotor(robot.liftL, movement.DRIVE_SPEED, 10);
-            movement.encoderMotor(robot.liftR, movement.DRIVE_SPEED, 10);
-            movement.encoderMotor(robot.extendor, movement.DRIVE_SPEED, 10);
-        }   //makes extendor and lift instantly extend to max
+            //movement.encoderMotor(robot.liftL, movement.DRIVE_SPEED, 10);
+            //movement.encoderMotor(robot.liftR, movement.DRIVE_SPEED, 10);
+            movement.encoderMotor(robot.extendor, 1, 9);
+        }
+
+        if (gamepad2.y){
+            movement.encoderMotor(robot.extendor, 1, 11);
+
+        }
+
+
+
+
+
+
+
+
+        //if (robot.color1.blue() > robot.color1.red() && robot.color1.blue() > robot.color1.green()) {
+            //zone = 1;
+        //} else if (robot.color1.red() > robot.color1.blue()) {
+            //zone = 3;
+        //} else  {
+            //zone = 2;
+        //}
+
 
         telemetry.addData("Runtime", runtime.seconds());
-        telemetry.addData("Red", robot.color1.red() - 29);
+        telemetry.addData("Red", robot.color1.red() - 25);
         telemetry.addData("Green", robot.color1.green() - 52);
         telemetry.addData("Blue", robot.color1.blue() -42);
         telemetry.addData("Claw Vision: Blue", robot.color2.blue());
@@ -194,6 +223,9 @@ public class TeleopChosenOne extends OpMode{
         telemetry.addData("power", robot.claw.getConnectionInfo());
         telemetry.addData("Claw", robot.claw.getPosition());
         telemetry.addData("Velocity", robot.fleft.getVelocity());
+        telemetry.addData("currentL", robot.liftL.getCurrentPosition() / LIFT_COUNTS_PER_INCH);
+        telemetry.addData("currentR", robot.liftR.getCurrentPosition() / LIFT_COUNTS_PER_INCH);
+
         telemetry.update();
 
         //gamepad 1 right trigger continuoes servo intake

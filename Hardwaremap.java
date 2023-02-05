@@ -74,7 +74,7 @@ public class Hardwaremap {
     DcMotorEx liftL = null;
     DcMotorEx extendor = null;
     Servo claw = null;
-
+//    Servo intakeR = null;
 
     ColorSensor color1;
     ColorSensor color2;
@@ -116,7 +116,7 @@ public class Hardwaremap {
         extendor = hwMap.get(DcMotorEx.class, "extendor"); // Port 2
 
         claw = hwMap.get(Servo.class, "claw"); // Port 0
-
+//        intakeR = hwMap.get(Servo.class, "intakeR"); // Port 0 expansion hub
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
@@ -126,17 +126,19 @@ public class Hardwaremap {
         bright.setDirection(DcMotorEx.Direction.FORWARD);
         liftL.setDirection(DcMotorSimple.Direction.REVERSE);
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
+        extendor.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         fleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         bleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         fright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         bright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-        liftL.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        liftR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        extendor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        liftL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        liftR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        extendor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         claw.setPosition(MID_SERVO);
+
 
         // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
         // leftDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -150,6 +152,17 @@ public class Hardwaremap {
 
 //        myOpMode.telemetry.addData(">", "Hardware Initialized");
 //        myOpMode.telemetry.update();
+    }
+    public int getLiftR(){
+        int R = liftR.getCurrentPosition();
+        int inches = R / 114;
+        return  inches;
+    }
+
+    public int getLiftL(){
+        int L = liftR.getCurrentPosition();
+        int inche = L / 114;
+        return  inche;
     }
 
 
