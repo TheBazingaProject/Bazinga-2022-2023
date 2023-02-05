@@ -74,7 +74,6 @@ public class Hardwaremap {
     DcMotorEx liftL = null;
     DcMotorEx extendor = null;
     Servo claw = null;
-//    Servo intakeR = null;
 
     ColorSensor color1;
     ColorSensor color2;
@@ -88,7 +87,6 @@ public class Hardwaremap {
 
     // Define a constructor that allows the OpMode to pass a reference to itself.
     public Hardwaremap() {
-
     }
 
     /**
@@ -128,7 +126,6 @@ public class Hardwaremap {
         liftR.setDirection(DcMotorSimple.Direction.REVERSE);
         extendor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-
         fleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         bleft.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         fright.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
@@ -138,21 +135,8 @@ public class Hardwaremap {
         extendor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         claw.setPosition(MID_SERVO);
-
-
-        // If there are encoders connected, switch to RUN_USING_ENCODER mode for greater accuracy
-        // leftDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        // rightDrive.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-
-//        // Define and initialize ALL installed servos.
-//        leftHand = myOpMode.hardwareMap.get(Servo.class, "left_hand");
-//        rightHand = myOpMode.hardwareMap.get(Servo.class, "right_hand");
-//        leftHand.setPosition(MID_SERVO);
-//        rightHand.setPosition(MID_SERVO);
-
-//        myOpMode.telemetry.addData(">", "Hardware Initialized");
-//        myOpMode.telemetry.update();
     }
+
     public int getLiftR(){
         int R = liftR.getCurrentPosition();
         int inches = R / 114;
@@ -164,62 +148,4 @@ public class Hardwaremap {
         int inche = L / 114;
         return  inche;
     }
-
-
-    /**
-     * Calculates the left/right motor powers required to achieve the requested
-     * robot motions: Drive (Axial motion) and Turn (Yaw motion).
-     * Then sends these power levels to the motors.
-     *
-     * @param Drive     Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-     * @param Turn      Right/Left turning power (-1.0 to 1.0) +ve is CW
-     */
-//    public void driveRobot(double Drive, double Turn) {
-//        // Combine drive and turn for blended motion.
-//        double left  = Drive + Turn;
-//        double right = Drive - Turn;
-//
-//        // Scale the values so neither exceed +/- 1.0
-//        double max = Math.max(Math.abs(left), Math.abs(right));
-//        if (max > 1.0)
-//        {
-//            left /= max;
-//            right /= max;
-//        }
-//
-//        // Use existing function to drive both wheels.
-////        setDrivePower(left, right);
-//    }
-
-    /**
-     * Pass the requested wheel motor powers to the appropriate hardware drive motors.
-     *
-     * @param leftWheel     Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-     * @param rightWheel    Fwd/Rev driving power (-1.0 to 1.0) +ve is forward
-     */
-//    public void setDrivePower(double leftWheel, double rightWheel) {
-//        // Output the values to the motor drives.
-//        leftDrive.setPower(leftWheel);
-//        rightDrive.setPower(rightWheel);
-//    }
-//
-//    /**
-//     * Pass the requested arm power to the appropriate hardware drive motor
-//     *
-//     * @param power driving power (-1.0 to 1.0)
-//     */
-//    public void setArmPower(double power) {
-//        armMotor.setPower(power);
-//    }
-//
-//    /**
-//     * Send the two hand-servos to opposing (mirrored) positions, based on the passed offset.
-//     *
-//     * @param offset
-//     */
-//    public void setHandPositions(double offset) {
-//        offset = Range.clip(offset, -0.5, 0.5);
-//        leftHand.setPosition(MID_SERVO + offset);
-//        rightHand.setPosition(MID_SERVO - offset);
-//    }
 }

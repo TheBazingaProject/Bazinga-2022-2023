@@ -38,7 +38,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-
 /**
  * This particular OpMode executes a Tank Drive control TeleOp a direct drive robot
  * The code is structured as an Iterative OpMode
@@ -86,10 +85,7 @@ public class TeleopChosenOne extends OpMode{
         robot.liftR.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.liftL.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         robot.extendor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        telemetry.addData(">", "Robot Ready.  Press Play.");    //
-
-
-
+        telemetry.addData(">", "Robot Ready.  Press Play.");
     }
 
     /*
@@ -111,9 +107,6 @@ public class TeleopChosenOne extends OpMode{
         double ly = gamepad1.left_stick_y; // Remember, this is reversed!
         double lx = -gamepad1.left_stick_x;
         double rx = -gamepad1.right_stick_x;
-
-
-
 
         if (gamepad1.left_bumper && reverse) {
             reverse = false;
@@ -153,10 +146,6 @@ public class TeleopChosenOne extends OpMode{
             robot.extendor.setPower(-0.1); //enough to keep it in place
         }
 
-//        if (gamepad1.x) {
-//            robot.intakeR.setPosition(1);
-//        }
-
         if (robot.color2.blue() >= 20 || robot.color2.red() >= 20 && clawClosed == false){
             robot.claw.setPosition(0.2);
         }
@@ -182,8 +171,6 @@ public class TeleopChosenOne extends OpMode{
             clawClosed = true;
         }
 
-
-
         if (gamepad2.x){
             //movement.encoderMotor(robot.liftL, movement.DRIVE_SPEED, 10);
             //movement.encoderMotor(robot.liftR, movement.DRIVE_SPEED, 10);
@@ -192,24 +179,7 @@ public class TeleopChosenOne extends OpMode{
 
         if (gamepad2.y){
             movement.encoderMotor(robot.extendor, 1, 11);
-
         }
-
-
-
-
-
-
-
-
-        //if (robot.color1.blue() > robot.color1.red() && robot.color1.blue() > robot.color1.green()) {
-            //zone = 1;
-        //} else if (robot.color1.red() > robot.color1.blue()) {
-            //zone = 3;
-        //} else  {
-            //zone = 2;
-        //}
-
 
         telemetry.addData("Runtime", runtime.seconds());
         telemetry.addData("Red", robot.color1.red() - 25);
@@ -227,14 +197,6 @@ public class TeleopChosenOne extends OpMode{
         telemetry.addData("currentR", robot.liftR.getCurrentPosition() / LIFT_COUNTS_PER_INCH);
 
         telemetry.update();
-
-        //gamepad 1 right trigger continuoes servo intake
-
-//        telemetry.addData("fleft", robot.fleft.getPower());
-//        telemetry.addData("bleft", robot.bleft.getPower());
-//        telemetry.addData("fright", robot.fright.getPower());
-//        telemetry.addData("bright", robot.bright.getPower());
-
     }
 
     /*
